@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Program.fs" />
+    <Compile Include="Rules.fs" />
+    <Compile Include="Finder.fs" />
   </ItemGroup>
 
 </Project>

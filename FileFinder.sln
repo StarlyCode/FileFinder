@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FileFinder", "FileFinder\FileFinder.fsproj", "{8D72612B-31A7-4A78-B118-907FCF6B7AA0}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FileFinderTests", "FileFinderTests\FileFinderTests.fsproj", "{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8D72612B-31A7-4A78-B118-907FCF6B7AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D72612B-31A7-4A78-B118-907FCF6B7AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D72612B-31A7-4A78-B118-907FCF6B7AA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
