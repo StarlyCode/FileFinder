@@ -10,52 +10,23 @@ module RulesTests =
     let ``ResolvePatterns - x`` () =
         let viewRule =
             {
-                PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet"]
                 Patterns = [
-                    @"Views\{Controller}\{Action}.cshtml"
-                    @"Views\{Controller}\{Action}_{SubAction}.cshtml"
-                    @"Areas\{Area}\Views\{Controller}\{Action}.cshtml"
-                    @"Areas\{Area}\Views\{Controller}\{Action}_{SubAction}.cshtml"
+                    @"{Cricket.Intranet}\Views\{Controller}\{Action}.cshtml"
+                    @"{Cricket.Intranet}\Views\{Controller}\{Action}_{SubAction}.cshtml"
+                    @"{Cricket.Intranet}\Areas\{Area}\Views\{Controller}\{Action}.cshtml"
+                    @"{Cricket.Intranet}\Areas\{Area}\Views\{Controller}\{Action}_{SubAction}.cshtml"
                 ]
             }
 
         let substitutions = 
             [
+                "Cricket.Intranet", @"C:\Dev\WesternCap\Cricket.Intranet"
                 "Controller", "Home"
                 "Action", "Index"
             ]
             |> Map.ofList
 
         ResolvePatterns viewRule substitutions
-        |> should equal 
-            [
-                "Views\Home\Index.cshtml"
-                "Views\Home\Index_{SubAction}.cshtml"
-                "Areas\{Area}\Views\Home\Index.cshtml"
-                "Areas\{Area}\Views\Home\Index_{SubAction}.cshtml"
-            ]
-
-    [<Fact>]
-    let ``ApplyFactorsToRule - x`` () =
-        let viewRule =
-            {
-                PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet"]
-                Patterns = [
-                    @"Views\{Controller}\{Action}.cshtml"
-                    @"Views\{Controller}\{Action}_{SubAction}.cshtml"
-                    @"Areas\{Area}\Views\{Controller}\{Action}.cshtml"
-                    @"Areas\{Area}\Views\{Controller}\{Action}_{SubAction}.cshtml"
-                ]
-            }
-            
-        let substitutions = 
-            [
-                "Controller", "Home"
-                "Action", "Index"
-            ]
-            |> Map.ofList
-
-        ApplyFactorsToRule viewRule substitutions
         |> should equal 
             [
                 "C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index.cshtml"

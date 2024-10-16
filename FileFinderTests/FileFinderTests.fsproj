@@ -5,8 +5,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FinderTests.fs" />
     <Compile Include="RulesTests.fs" />
+    <Compile Include="FinderTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
