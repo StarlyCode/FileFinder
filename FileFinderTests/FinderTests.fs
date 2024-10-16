@@ -16,7 +16,6 @@ module FinderTests =
         
     let viewRule =
         {
-            Name = "ASP.NET View HTML"
             PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet"]
             Patterns = [
                 @"Views\{Controller}\{Action}.cshtml"
@@ -26,21 +25,19 @@ module FinderTests =
             ]
         }
 
-    let cricketFileFinder = FileFinder.Finder.Finder([viewRule])
+    let cricketFileFinder = 
+        Map.empty
+        |> Map.add "ASP.NET View HTML" viewRule
+        |> FileFinder.Finder.Finder
 
     [<Fact>]
     let ``Finder - Cricket View - Valid - Finds`` () =
-        let factors = 
+        let substitutions = 
             [
-                {
-                    PlaceHolder = "Controller"
-                    Value = "Home"
-                }
-                {
-                    PlaceHolder = "Action"
-                    Value = "Index"
-                }
+                "Controller", "Home"
+                "Action", "Index"
             ]
+            |> Map.ofList
 
         let exp = 
              Ok
@@ -51,7 +48,7 @@ module FinderTests =
                   "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index.cshtml";
                   "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index_{SubAction}.cshtml"] }
 
-        let act = cricketFileFinder.FindFiles "ASP.NET View HTML" factors
+        let act = cricketFileFinder.FindFiles "ASP.NET View HTML" substitutions
         //AreEqualWinMerge exp act
 
         act

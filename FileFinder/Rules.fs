@@ -2,10 +2,14 @@
 module Rules =
     type Rule = 
         {
-            Name: string
+            //Name: string
             PossibleDirs: string list
             Patterns: string list
         }
+    
+    type RuleName = string
+    
+    type RuleSet = Map<RuleName, Rule>
 
     type ConventionFactor =
         {
@@ -13,9 +17,11 @@ module Rules =
             Value: string
         }
 
+    type Substitutions = Map<string, string>
+
     let ViewRule =
         {
-            Name = "ASP.NET View HTML"
+            //Name = "ASP.NET View HTML"
             PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet\Views"]
             Patterns = [
                 @"Views\{Controller}\{Action}.cshtml"
@@ -27,16 +33,16 @@ module Rules =
         
     let inline (^) f a = f a
 
-    let ResolvePatterns (rule: Rule) (factors: ConventionFactor list) =
+    let ResolvePatterns (rule: Rule) (substitutions: Substitutions) =
         rule.Patterns 
         |> List.map 
             ^ fun pattern -> 
-                factors 
-                |> List.fold 
-                    (fun (p: string) f -> p.Replace("{" + f.PlaceHolder + "}", f.Value))
+                substitutions 
+                |> Seq.fold 
+                    (fun (p: string) f -> p.Replace("{" + f.Key + "}", f.Value))
                     pattern
                         
-    let ApplyFactorsToRule (rule: Rule) (factors: ConventionFactor list) =
+    let ApplyFactorsToRule (rule: Rule) (factors: Substitutions) =
         let patternsWithSubstitutions =
             ResolvePatterns rule factors
 

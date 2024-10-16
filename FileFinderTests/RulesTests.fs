@@ -10,7 +10,6 @@ module RulesTests =
     let ``ResolvePatterns - x`` () =
         let viewRule =
             {
-                Name = "ASP.NET View HTML"
                 PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet"]
                 Patterns = [
                     @"Views\{Controller}\{Action}.cshtml"
@@ -20,19 +19,14 @@ module RulesTests =
                 ]
             }
 
-        let factors = 
+        let substitutions = 
             [
-                {
-                    PlaceHolder = "Controller"
-                    Value = "Home"
-                }
-                {
-                    PlaceHolder = "Action"
-                    Value = "Index"
-                }
+                "Controller", "Home"
+                "Action", "Index"
             ]
+            |> Map.ofList
 
-        ResolvePatterns viewRule factors
+        ResolvePatterns viewRule substitutions
         |> should equal 
             [
                 "Views\Home\Index.cshtml"
@@ -45,7 +39,6 @@ module RulesTests =
     let ``ApplyFactorsToRule - x`` () =
         let viewRule =
             {
-                Name = "ASP.NET View HTML"
                 PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet"]
                 Patterns = [
                     @"Views\{Controller}\{Action}.cshtml"
@@ -54,20 +47,15 @@ module RulesTests =
                     @"Areas\{Area}\Views\{Controller}\{Action}_{SubAction}.cshtml"
                 ]
             }
-
-        let factors = 
+            
+        let substitutions = 
             [
-                {
-                    PlaceHolder = "Controller"
-                    Value = "Home"
-                }
-                {
-                    PlaceHolder = "Action"
-                    Value = "Index"
-                }
+                "Controller", "Home"
+                "Action", "Index"
             ]
+            |> Map.ofList
 
-        ApplyFactorsToRule viewRule factors
+        ApplyFactorsToRule viewRule substitutions
         |> should equal 
             [
                 "C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index.cshtml"
