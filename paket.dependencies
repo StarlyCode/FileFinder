@@ -5,4 +5,5 @@ nuget FSharp.Core
 nuget FSUnit.xUnit
 nuget Microsoft.NET.Test.Sdk
 nuget xunit
+nuget Newtonsoft.Json
 nuget xunit.runner.visualstudio

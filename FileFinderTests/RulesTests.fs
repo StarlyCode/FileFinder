@@ -11,7 +11,7 @@ module RulesTests =
         let viewRule =
             {
                 Name = "ASP.NET View HTML"
-                PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet\Views"]
+                PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet"]
                 Patterns = [
                     @"Views\{Controller}\{Action}.cshtml"
                     @"Views\{Controller}\{Action}_{SubAction}.cshtml"
@@ -46,7 +46,7 @@ module RulesTests =
         let viewRule =
             {
                 Name = "ASP.NET View HTML"
-                PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet\Views"]
+                PossibleDirs = [@"C:\Dev\WesternCap\Cricket.Intranet"]
                 Patterns = [
                     @"Views\{Controller}\{Action}.cshtml"
                     @"Views\{Controller}\{Action}_{SubAction}.cshtml"
@@ -70,8 +70,8 @@ module RulesTests =
         ApplyFactorsToRule viewRule factors
         |> should equal 
             [
-                "C:\Dev\WesternCap\Cricket.Intranet\Views\Views\Home\Index.cshtml"
-                "C:\Dev\WesternCap\Cricket.Intranet\Views\Views\Home\Index_{SubAction}.cshtml"
-                "C:\Dev\WesternCap\Cricket.Intranet\Views\Areas\{Area}\Views\Home\Index.cshtml"
-                "C:\Dev\WesternCap\Cricket.Intranet\Views\Areas\{Area}\Views\Home\Index_{SubAction}.cshtml"
+                "C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index.cshtml"
+                "C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index_{SubAction}.cshtml"
+                "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index.cshtml"
+                "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index_{SubAction}.cshtml"
             ]

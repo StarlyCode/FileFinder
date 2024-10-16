@@ -4,3 +4,4 @@ FSUnit.xUnit
 Microsoft.NET.Test.Sdk
 xunit
 xunit.runner.visualstudio
+Newtonsoft.Json

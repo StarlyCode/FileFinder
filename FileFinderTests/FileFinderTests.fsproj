@@ -5,12 +5,14 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FinderTests.fs" />
     <Compile Include="RulesTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Dev\WesternCap\WinMergeEquals\WinMergeEquals.fsproj" />
     <ProjectReference Include="..\FileFinder\FileFinder.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
