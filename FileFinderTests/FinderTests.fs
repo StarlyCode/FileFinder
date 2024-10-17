@@ -2,18 +2,11 @@ namespace FileFinderTests
 //Op: Auto
 open FileFinder.Rules
 open FileFinder.Finder
-
+open TypeExtensions
 open FsUnitTyped
-//open FsUnit
 open Xunit
 //Op: End
 module FinderTests =
-    let serialize x = Newtonsoft.Json.JsonConvert.SerializeObject(x, Newtonsoft.Json.Formatting.Indented)
-    let AreEqualWinMerge exp act =
-        let exp = exp |> serialize
-        let act = act |> serialize
-        WinMergeEquals.WinMergeEquals.AreEqualWinMerge exp act WinMergeEquals.WhitespaceSimplify.None "Expected" "Actual"
-        
     let num1_viewRule =
         {
             Patterns = [
@@ -46,6 +39,38 @@ module FinderTests =
                 @"{Cricket.Intranet.FSharp}\Controllers\{Controller}_{Action}.fs"
             ]
         }
+        
+    let num4_TS =
+        {
+            Patterns = [
+                @"{Cricket.Intranet}\Views\{Controller}_{Action}.ts"
+                @"{Cricket.Intranet}\Areas\{Area}\Views\{Controller}_{Action}.ts"
+            ]
+        }
+        
+    let num5_ControllerAction =
+        {
+            Patterns = [
+                @"{Cricket.Intranet}\Controllers\{Controller}_{Action}.cs"
+                @"{Cricket.Intranet}\Areas\{Area}\Controllers\{Controller}_{Action}.cs"
+            ]
+        }
+        
+    let num6_ControllerBase =
+        {
+            Patterns = [
+                @"{Cricket.Intranet}\Controllers\{Controller}.cs"
+                @"{Cricket.Intranet}\Areas\{Area}\Controllers\{Controller}.cs"
+            ]
+        }
+        
+    let num7_FSharpControllerData =
+        {
+            Patterns = [
+                @"{Cricket.Intranet.FSharp.Data}\{Controller}_{Action}.fs"
+                @"{Cricket.Intranet.FSharp.Data}\{Controller}_{Action}_Data.fs"
+            ]
+        }
 
     let cricketFileFinder = 
         let rules = 
@@ -54,7 +79,20 @@ module FinderTests =
             |> Map.add "Cricket.Intranet FSharp SQL" num2_SQL
             |> Map.add "Cricket.Intranet FSharp SQL Alt" num2_SQLAlt
             |> Map.add "Cricket.Intranet FSharp Controller" num3_FSharpController
-        FileFinder.Finder.Finder(rules, Map.empty)
+            |> Map.add "Cricket.Intranet View Typescript" num4_TS
+            |> Map.add "Cricket.Intranet Controller Action" num5_ControllerAction
+            |> Map.add "Cricket.Intranet Controller Base" num6_ControllerBase
+            |> Map.add "Cricket.Intranet FSharp Controller Data" num7_FSharpControllerData
+
+        let sharedSubstitutions = 
+            [
+                "Cricket.Intranet.FSharp.Data", @"C:\Dev\WesternCap\Cricket.Intranet.FSharp.Data"
+                "Cricket.Intranet.FSharp", @"C:\Dev\WesternCap\Cricket.Intranet.FSharp"
+                "Cricket.Intranet", @"C:\Dev\WesternCap\Cricket.Intranet"
+            ]
+            |> Map.ofSeq
+
+        FileFinder.Finder.Finder(rules, sharedSubstitutions)
 
     [<Fact>]
     let ``Finder - Cricket View - Valid - Finds`` () =
@@ -62,7 +100,6 @@ module FinderTests =
             [
                 "Controller", "Home"
                 "Action", "Index"
-                "Cricket.Intranet", @"C:\Dev\WesternCap\Cricket.Intranet"
             ]
             |> Map.ofList
             
@@ -76,7 +113,7 @@ module FinderTests =
                   "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index_{SubAction}.cshtml"] }
 
         let act = cricketFileFinder.FindFiles "Cricket.Intranet View HTML" substitutions
-        AreEqualWinMerge exp act
+        //AreEqualWinMerge exp act
 
         act
         |> shouldEqual exp
@@ -87,8 +124,6 @@ module FinderTests =
             [
                 "Controller", "Accessory"
                 "Action", "OrderItem"
-                "Cricket.Intranet.FSharp.Data", @"C:\Dev\WesternCap\Cricket.Intranet.FSharp.Data"
-                "Cricket.Intranet.FSharp", @"C:\Dev\WesternCap\Cricket.Intranet.FSharp"
             ]
             |> Map.ofList
             
@@ -111,8 +146,6 @@ module FinderTests =
             [
                 "Controller", "Accessory"
                 "Action", "OrderItem"
-                "Cricket.Intranet.FSharp.Data", @"C:\Dev\WesternCap\Cricket.Intranet.FSharp.Data"
-                "Cricket.Intranet.FSharp", @"C:\Dev\WesternCap\Cricket.Intranet.FSharp"
             ]
             |> Map.ofList
             
@@ -140,3 +173,29 @@ module FinderTests =
 
         act
         |> shouldEqual exp
+        
+    [<Fact>]
+    let ``Finder - Dump Rules - x`` () =
+        let substitutions = 
+            [
+                "Controller", "Accessory"
+                "Action", "OrderItem"
+            ]
+            |> Map.ofList
+            
+        let exp = 
+            Error [""]
+        
+        let act = 
+            cricketFileFinder.Rules 
+            |> Seq.map ^ fun r -> cricketFileFinder.FindFiles r.Key substitutions
+            |> Result.collect
+        //AreEqualWinMerge exp act
+
+        act
+        |> shouldEqual exp
+        
+    [<Fact>]
+    let ``Finder - Bad Rule Name - Error`` () =
+        cricketFileFinder.FindFiles "Bad name" Map.empty
+        |> shouldEqual (Error "Invalid rule name: Bad name")

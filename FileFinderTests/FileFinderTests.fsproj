@@ -5,6 +5,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TypeExtensions.fs" />
+    <Compile Include="WinMerge.fs" />
     <Compile Include="RulesTests.fs" />
     <Compile Include="FinderTests.fs" />
   </ItemGroup>
