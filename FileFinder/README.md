@@ -1,0 +1,1 @@
+FileFinder is a library that allows you to search for files in a directory based on a set of naming convention rules and substitutions.

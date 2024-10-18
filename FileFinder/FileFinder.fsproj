@@ -4,8 +4,22 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PackageId>StarlyCode.FileFinder</PackageId>
+    <Title>FileFinder</Title>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <Description>
+      FileFinder is a library that allows you to search for files in a directory based on a set of naming convention rules and substitutions.
+    </Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://pstaszko@github.com/StarlyCode/FileFinder.git</RepositoryUrl>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="paket.references" />
+    <None Include="publish.ps1" />
+    <None Include="README.md" />
     <Compile Include="Rules.fs" />
     <Compile Include="Finder.fs" />
   </ItemGroup>
