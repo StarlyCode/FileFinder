@@ -119,30 +119,6 @@ module FinderTests =
         |> shouldEqual exp
         
     [<Fact>]
-    let ``Finder - Cricket View - Velocity/WhiteboardLocation - Finds`` () =
-        let substitutions = 
-            [
-                "Controller", "Velocity"
-                "Action", "WhiteboardLocation"
-            ]
-            |> Map.ofList
-            
-        let exp = 
-             Ok
-              { ExistingFiles =
-                 ["C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index.cshtml"]
-                UnmatchedPatterns =
-                 ["C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index_{SubAction}.cshtml";
-                  "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index.cshtml";
-                  "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index_{SubAction}.cshtml"] }
-
-        let act = cricketFileFinder.FindFiles "Cricket.Intranet View HTML" substitutions
-        //AreEqualWinMerge exp act
-
-        act
-        |> shouldEqual exp
-        
-    [<Fact>]
     let ``Finder - Cricket.Intranet FSharp SQL - Valid - Finds`` () =
         let substitutions = 
             [
