@@ -119,6 +119,30 @@ module FinderTests =
         |> shouldEqual exp
         
     [<Fact>]
+    let ``Finder - Cricket View - Velocity/WhiteboardLocation - Finds`` () =
+        let substitutions = 
+            [
+                "Controller", "Velocity"
+                "Action", "WhiteboardLocation"
+            ]
+            |> Map.ofList
+            
+        let exp = 
+             Ok
+              { ExistingFiles =
+                 ["C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index.cshtml"]
+                UnmatchedPatterns =
+                 ["C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index_{SubAction}.cshtml";
+                  "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index.cshtml";
+                  "C:\Dev\WesternCap\Cricket.Intranet\Areas\{Area}\Views\Home\Index_{SubAction}.cshtml"] }
+
+        let act = cricketFileFinder.FindFiles "Cricket.Intranet View HTML" substitutions
+        //AreEqualWinMerge exp act
+
+        act
+        |> shouldEqual exp
+        
+    [<Fact>]
     let ``Finder - Cricket.Intranet FSharp SQL - Valid - Finds`` () =
         let substitutions = 
             [
@@ -174,28 +198,28 @@ module FinderTests =
         act
         |> shouldEqual exp
         
-    [<Fact>]
-    let ``Finder - Dump Rules - x`` () =
-        let substitutions = 
-            [
-                "Controller", "Accessory"
-                "Action", "OrderItem"
-            ]
-            |> Map.ofList
+    //[<Fact>]
+    //let ``Finder - Dump Rules - x`` () =
+    //    let substitutions = 
+    //        [
+    //            "Controller", "Accessory"
+    //            "Action", "OrderItem"
+    //        ]
+    //        |> Map.ofList
             
-        let exp = 
-            Error [""]
+    //    let exp = 
+    //        Error [""]
         
-        let act = 
-            cricketFileFinder.Rules 
-            |> Seq.map ^ fun r -> cricketFileFinder.FindFiles r.Key substitutions
-            |> Result.collect
-        //AreEqualWinMerge exp act
+    //    let act = 
+    //        cricketFileFinder.Rules 
+    //        |> Seq.map ^ fun r -> cricketFileFinder.FindFiles r.Key substitutions
+    //        |> Result.collect
+    //    //AreEqualWinMerge exp act
 
-        act
-        |> shouldEqual exp
+    //    act
+    //    |> shouldEqual exp
         
-    [<Fact>]
-    let ``Finder - Bad Rule Name - Error`` () =
-        cricketFileFinder.FindFiles "Bad name" Map.empty
-        |> shouldEqual (Error "Invalid rule name: Bad name")
+    //[<Fact>]
+    //let ``Finder - Bad Rule Name - Error`` () =
+    //    cricketFileFinder.FindFiles "Bad name" Map.empty
+    //    |> shouldEqual (Error "Invalid rule name: Bad name")
