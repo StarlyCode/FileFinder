@@ -19,7 +19,7 @@
   <ItemGroup>
     <None Include="paket.references" />
     <None Include="publish.ps1" />
-    <None Include="README.md" />
+    <Content Include="README.md" />
     <Compile Include="Rules.fs" />
     <Compile Include="Finder.fs" />
   </ItemGroup>
