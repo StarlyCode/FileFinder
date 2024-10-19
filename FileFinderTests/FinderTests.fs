@@ -88,16 +88,15 @@ module FinderTests =
         let rules =
             Map.empty
 
-        let substitutions =
-            [
-                "name", "a"
-            ]
-            |> Map.ofList
+        shouldFail<System.Exception> 
+            (fun () -> 
+                let sharedSubstitutions =
+                    [
+                        "CurDir", cd
+                    ]
+                    |> Map.ofSeq
 
-        let findFiles = getFinderForCurrentDirectory rules
-
-        let exp = Error "Invalid rule name: badName"
-
-        findFiles "name" substitutions
-        |> shouldEqual exp
-
+                FileFinder.Finder.FindFiles rules sharedSubstitutions
+                |> ignore
+            )
+        
