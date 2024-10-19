@@ -5,13 +5,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="paket.references" />
     <Compile Include="TypeExtensions.fs" />
     <Compile Include="WinMerge.fs" />
     <Compile Include="RulesTests.fs" />
     <Compile Include="FinderTests.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Dev\WesternCap\WinMergeEquals\WinMergeEquals.fsproj" />
