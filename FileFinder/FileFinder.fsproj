@@ -9,7 +9,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageId>StarlyCode.FileFinder</PackageId>
     <Title>FileFinder</Title>
-    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionPrefix>0.1.0</VersionPrefix>
     <Description>
       FileFinder is a library that allows you to search for files in a directory based on a set of naming convention rules and substitutions.
     </Description>

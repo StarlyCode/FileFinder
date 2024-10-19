@@ -34,9 +34,29 @@ module Finder =
                         |> List.ofSeq
                 }
 
-    type Finder (rules: RuleSet, sharedSubstitutions: Substitutions) =
-        member val Rules = rules
-        member this.FindFiles (ruleName: RuleName) (substitutions: Substitutions) : Result<FindResults, string> =
+    let private globHitsToFindResults (x: GlobResults list) =
+        {
+            ExistingFiles = x |> List.collect (fun x -> x.ExistingFiles)
+            UnmatchedPatterns = x |> List.filter (fun x -> x.ExistingFiles.Length = 0) |> List.map (fun x -> x.Line)
+        }
+
+    //type Finder (rules: RuleSet, sharedSubstitutions: Substitutions) =
+    //    member val Rules = rules
+    //    member this.FindFiles (ruleName: RuleName) (substitutions: Substitutions) : Result<FindResults, string> =
+    //        let combinedSubstitutions = substitutions |> Seq.fold (fun x y -> x |> Map.add y.Key y.Value) sharedSubstitutions
+    //        let rule = rules |> Map.tryFind ruleName
+    //        rule
+    //        |> function
+    //        | Some x -> Ok x
+    //        | None -> $"Invalid rule name: %s{ruleName}" |> Error
+    //        |> Result.map ^ fun rule -> ResolvePatterns rule combinedSubstitutions
+    //        |> Result.map getGlobHits
+    //        |> Result.map globHitsToFindResults
+
+
+    let FindFiles (rules: RuleSet) (sharedSubstitutions: Substitutions) =
+        if Map.isEmpty rules then failwith "Ruleset must not be empty"
+        fun (ruleName: RuleName) (substitutions: Substitutions) -> 
             let combinedSubstitutions = substitutions |> Seq.fold (fun x y -> x |> Map.add y.Key y.Value) sharedSubstitutions
             let rule = rules |> Map.tryFind ruleName
             rule
@@ -45,10 +65,4 @@ module Finder =
             | None -> $"Invalid rule name: %s{ruleName}" |> Error
             |> Result.map ^ fun rule -> ResolvePatterns rule combinedSubstitutions
             |> Result.map getGlobHits
-            |> Result.map
-                ^ fun x ->
-                    {
-                        ExistingFiles = x |> List.collect (fun x -> x.ExistingFiles)
-                        UnmatchedPatterns = x |> List.filter (fun x -> x.ExistingFiles.Length = 0) |> List.map (fun x -> x.Line)
-                    }
-            |> fun x -> x
+            |> Result.map globHitsToFindResults
