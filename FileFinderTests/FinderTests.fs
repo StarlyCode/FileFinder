@@ -3,7 +3,6 @@ namespace FileFinderTests
 open FileFinder.Finder
 open FileFinder.Rules
 
-open TypeExtensions
 
 open FsUnitTyped
 open Xunit

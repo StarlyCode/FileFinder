@@ -53,7 +53,6 @@ module Finder =
     //        |> Result.map getGlobHits
     //        |> Result.map globHitsToFindResults
 
-
     let FindFiles (rules: RuleSet) (sharedSubstitutions: Substitutions) =
         if Map.isEmpty rules then raise (new System.ArgumentException("Ruleset must not be empty", "rules"))
         fun (ruleName: RuleName) (substitutions: Substitutions) -> 
