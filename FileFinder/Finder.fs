@@ -55,7 +55,7 @@ module Finder =
 
     let FindFiles (rules: RuleSet) (sharedSubstitutions: Substitutions) =
         if Map.isEmpty rules then raise (new System.ArgumentException("Ruleset must not be empty", "rules"))
-        fun (ruleName: RuleName) (substitutions: Substitutions) -> 
+        fun (ruleName: RuleName) (substitutions: Substitutions) ->
             let combinedSubstitutions = substitutions |> Seq.fold (fun x y -> x |> Map.add y.Key y.Value) sharedSubstitutions
             let rule = rules |> Map.tryFind ruleName
             rule
