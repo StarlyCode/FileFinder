@@ -40,21 +40,9 @@ module Finder =
             UnmatchedPatterns = x |> List.filter (fun x -> x.ExistingFiles.Length = 0) |> List.map (fun x -> x.Line)
         }
 
-    //type Finder (rules: RuleSet, sharedSubstitutions: Substitutions) =
-    //    member val Rules = rules
-    //    member this.FindFiles (ruleName: RuleName) (substitutions: Substitutions) : Result<FindResults, string> =
-    //        let combinedSubstitutions = substitutions |> Seq.fold (fun x y -> x |> Map.add y.Key y.Value) sharedSubstitutions
-    //        let rule = rules |> Map.tryFind ruleName
-    //        rule
-    //        |> function
-    //        | Some x -> Ok x
-    //        | None -> $"Invalid rule name: %s{ruleName}" |> Error
-    //        |> Result.map ^ fun rule -> ResolvePatterns rule combinedSubstitutions
-    //        |> Result.map getGlobHits
-    //        |> Result.map globHitsToFindResults
-
-    let FindFiles (rules: RuleSet) (sharedSubstitutions: Substitutions) =
+    let FindFiles (rules: RuleSet) (sharedSubstitutions: Substitutions) : (RuleName -> Substitutions -> Result<FindResults, string>) =
         if Map.isEmpty rules then raise (new System.ArgumentException("Ruleset must not be empty", "rules"))
+
         fun (ruleName: RuleName) (substitutions: Substitutions) ->
             let combinedSubstitutions = substitutions |> Seq.fold (fun x y -> x |> Map.add y.Key y.Value) sharedSubstitutions
             let rule = rules |> Map.tryFind ruleName
