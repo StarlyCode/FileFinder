@@ -23,6 +23,11 @@ module RelativeFinder =
 
     let relativePath remainder = System.IO.Path.Combine(cd, remainder)
 
+module Likeness =
+    let FileResultLikeness (x: Result<FileFinder.Finder.FindResults, string>) =
+        x
+        |> Result.map _.ExistingFiles
+
 module FinderTests =
     open RelativeFinder
     [<Fact>]
@@ -33,6 +38,7 @@ module FinderTests =
                 {
                     Patterns = [
                         @"{CurDir}\TestFiles\{name}.txt"
+                        @"{CurDir}\TestFiles\{name}Other.txt"
                     ]
                 }
 
@@ -43,18 +49,11 @@ module FinderTests =
             |> Map.ofList
 
         let findFiles = getFinderForCurrentDirectory rules
-
-        let exp =
-            Ok
-                {
-                    ExistingFiles =
-                        [
-                            relativePath @"TestFiles\a.txt"
-                        ]
-                    UnmatchedPatterns = []
-                }
+        
+        let exp = Ok [relativePath @"TestFiles\a.txt"]
 
         findFiles "ruleA" substitutions
+        |> Likeness.FileResultLikeness
         |> shouldEqual exp
 
     [<Fact>]
@@ -81,7 +80,6 @@ module FinderTests =
         findFiles "badName" substitutions
         |> shouldEqual exp
 
-        
     [<Fact>]
     let ``Finder - empty rule set -`` () =
         let rules =
@@ -99,3 +97,34 @@ module FinderTests =
                 |> ignore
             )
         
+    [<Fact>]
+    let ``Finder - shared substitutions are overwritten by specific substitutions`` () =
+        let rules =
+            Map.empty
+            |> Map.add "ruleA"
+                {
+                    Patterns = [
+                        @"{x}"
+                    ]
+                }
+
+        let sharedSubstitutions =
+            [
+                "x", "shared"
+            ]
+            |> Map.ofSeq
+            
+        let overrideSubs =
+            [
+                "x", "override"
+            ]
+            |> Map.ofSeq
+
+        let act = FileFinder.Finder.FindFiles rules sharedSubstitutions "ruleA" overrideSubs
+
+        let exp =
+            Ok { ExistingFiles = []
+                 UnmatchedPatterns = ["override"] }
+
+        act
+        |> shouldEqual exp
