@@ -53,3 +53,4 @@ module Finder =
             |> Result.map ^ fun rule -> ResolvePatterns rule combinedSubstitutions
             |> Result.map getGlobHits
             |> Result.map globHitsToFindResults
+            |> Result.map (fun x -> { x with ExistingFiles = x.ExistingFiles |> List.distinct})

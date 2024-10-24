@@ -8,6 +8,7 @@ open FsUnitTyped
 open Xunit
 //Op: End
 module RelativeFinder =
+    open System.Text.RegularExpressions
     let cd = System.IO.Directory.GetCurrentDirectory()
 
     let getFinderForCurrentDirectory(rules) =
@@ -19,14 +20,16 @@ module RelativeFinder =
 
         FileFinder.Finder.FindFiles rules sharedSubstitutions
 
-        //FileFinder.Finder.Finder(rules, sharedSubstitutions)
-
     let relativePath remainder = System.IO.Path.Combine(cd, remainder)
 
+    let makeRelative x = Regex.Replace(x, Regex.Escape(cd + @"\"), "", RegexOptions.IgnoreCase)
+
 module Likeness =
+    open RelativeFinder
     let FileResultLikeness (x: Result<FileFinder.Finder.FindResults, string>) =
         x
         |> Result.map _.ExistingFiles
+        |> Result.map (List.map makeRelative)
 
 module FinderTests =
     open RelativeFinder
@@ -50,7 +53,7 @@ module FinderTests =
 
         let findFiles = getFinderForCurrentDirectory rules
         
-        let exp = Ok [relativePath @"TestFiles\a.txt"]
+        let exp = Ok [@"TestFiles\a.txt"]
 
         findFiles "ruleA" substitutions
         |> Likeness.FileResultLikeness
@@ -127,4 +130,33 @@ module FinderTests =
                  UnmatchedPatterns = ["override"] }
 
         act
+        |> shouldEqual exp
+        
+    [<Fact>]
+    let ``Finder - duplicate hits (case insensitve) - return unique`` () =
+        let rules =
+            Map.empty
+            |> Map.add "ruleA"
+                {
+                    Patterns = [
+                        @"{CurDir}\TestFiles\{name}.txt"
+                        @"{CurDir}\TestFiles\a.txt"
+                        @"{CurDir}\TestFiles\A.txt"
+                        @"{CurDir}\TestFiles\{name}Other.txt"
+                    ]
+                }
+
+        let substitutions =
+            [
+                "name", "a"
+            ]
+            |> Map.ofList
+
+        let findFiles = getFinderForCurrentDirectory rules
+        
+        let exp = Ok [@"TestFiles\a.txt"]
+
+        findFiles "ruleA" substitutions
+        |> fun x -> x
+        |> Likeness.FileResultLikeness
         |> shouldEqual exp
