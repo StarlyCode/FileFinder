@@ -7,8 +7,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FileFinder", "FileFinder\Fi
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FileFinderTests", "FileFinderTests\FileFinderTests.fsproj", "{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WinMergeEquals", "..\..\Dev\WesternCap\WinMergeEquals\WinMergeEquals.fsproj", "{02BEFE23-33EE-4900-A861-AB1841AF94A6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Paket", "Paket", "{9DCFCF76-ADD2-4A53-BA5E-46DD478E105C}"
 	ProjectSection(SolutionItems) = preProject
 		paket.dependencies = paket.dependencies
@@ -29,10 +27,6 @@ Global
 		{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57AB5858-BF9F-4DB5-9DB6-A0024FFC070A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02BEFE23-33EE-4900-A861-AB1841AF94A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02BEFE23-33EE-4900-A861-AB1841AF94A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02BEFE23-33EE-4900-A861-AB1841AF94A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02BEFE23-33EE-4900-A861-AB1841AF94A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

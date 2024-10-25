@@ -10,13 +10,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="TypeExtensions.fs" />
-    <Compile Include="WinMerge.fs" />
     <Compile Include="RulesTests.fs" />
     <Compile Include="FinderTests.fs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Dev\WesternCap\WinMergeEquals\WinMergeEquals.fsproj" />
     <ProjectReference Include="..\FileFinder\FileFinder.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
