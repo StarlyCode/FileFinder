@@ -18,7 +18,7 @@ module RulesTests =
                 ]
             }
 
-        let substitutions = 
+        let substitutions =
             [
                 "Cricket.Intranet", @"C:\Dev\WesternCap\Cricket.Intranet"
                 "Controller", "Home"
@@ -27,7 +27,7 @@ module RulesTests =
             |> Map.ofList
 
         ResolvePatterns viewRule substitutions
-        |> should equal 
+        |> should equal
             [
                 "C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index.cshtml"
                 "C:\Dev\WesternCap\Cricket.Intranet\Views\Home\Index_{SubAction}.cshtml"

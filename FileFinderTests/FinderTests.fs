@@ -52,7 +52,7 @@ module FinderTests =
             |> Map.ofList
 
         let findFiles = getFinderForCurrentDirectory rules
-        
+
         let exp = Ok [@"TestFiles\a.txt"]
 
         findFiles "ruleA" substitutions
@@ -88,8 +88,8 @@ module FinderTests =
         let rules =
             Map.empty
 
-        shouldFail<System.Exception> 
-            (fun () -> 
+        shouldFail<System.Exception>
+            (fun () ->
                 let sharedSubstitutions =
                     [
                         "CurDir", cd
@@ -99,7 +99,7 @@ module FinderTests =
                 FileFinder.Finder.FindFiles rules sharedSubstitutions
                 |> ignore
             )
-        
+
     [<Fact>]
     let ``Finder - shared substitutions are overwritten by specific substitutions`` () =
         let rules =
@@ -116,7 +116,7 @@ module FinderTests =
                 "x", "shared"
             ]
             |> Map.ofSeq
-            
+
         let overrideSubs =
             [
                 "x", "override"
@@ -131,7 +131,7 @@ module FinderTests =
 
         act
         |> shouldEqual exp
-        
+
     [<Fact>]
     let ``Finder - duplicate hits (case insensitve) - return unique`` () =
         let rules =
@@ -153,7 +153,7 @@ module FinderTests =
             |> Map.ofList
 
         let findFiles = getFinderForCurrentDirectory rules
-        
+
         let exp = Ok [@"TestFiles\a.txt"]
 
         findFiles "ruleA" substitutions
